@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="Kocatepe"
+                  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                  targetNamespace="Kocatepe"
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+                  xmlns:tns="Kocatepe"
+                  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+
+    <wsdl:types>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="Kocatepe">
+            <xsd:complexType name="RequestStructure">
+                <xsd:sequence>
+                    <xsd:element name="username" type="xsd:string"/>
+                    <xsd:element name="password" type="xsd:string"/>
+                    <xsd:element name="type" type="xsd:string"/>
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:schema>
+    </wsdl:types>
+
+    <wsdl:message name="AuthenticationRequest">
+        <wsdl:part name="request" type="tns:RequestStructure"/> 
+    </wsdl:message>
+    
+    <wsdl:message name="AuthenticationResponse">
+        <wsdl:part name="result" type="xsd:anyType"/>
+    </wsdl:message>
+
+    <wsdl:portType name="Kocatepe">
+        <wsdl:operation name="GetBookList">
+            <wsdl:input message="tns:AuthenticationRequest"/>
+            <wsdl:output message="tns:AuthenticationResponse"/>
+        </wsdl:operation>
+    </wsdl:portType>
+
+    <wsdl:binding name="KocatepeBinding" type="tns:Kocatepe">
+        <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+        <wsdl:operation name="GetBookList">
+            <soap:operation soapAction="http://localhost/soaptest/service.php"/>
+            <wsdl:input>
+                <soap:body use="literal" namespace="Kocatepe"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" namespace="Kocatepe"/>
+            </wsdl:output>
+        </wsdl:operation>
+
+    </wsdl:binding>
+
+    <wsdl:service name="Kocatepe">
+        <wsdl:port binding="tns:KocatepeBinding" name="KocatepePort">
+            <soap:address location="http://localhost/soaptest/service.php"/>
+        </wsdl:port>
+    </wsdl:service>
+
+</wsdl:definitions>
